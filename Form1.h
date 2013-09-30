@@ -67,15 +67,6 @@ namespace WinFormsProba {
 	private: System::Windows::Forms::TabControl^  tabControl1;
 	private: System::Windows::Forms::Button^  button1;
 
-
-
-
-
-
-
-
-
-
 			 array<int> ^arrayForInit;
 	public:
 		void clearWorkPlace(){
@@ -158,7 +149,6 @@ namespace WinFormsProba {
 			StreamReader fromFile(pathToFile);
 			String^ temp;
 			int iCountOfNodes, iNumOfVar, iNumOfExamples, iNumOfOutcomes;
-			//String^ nameOfNode = "Node" + iNumOfNode;
 
 			while (fromFile.Peek() >= 0){
 				temp = fromFile.ReadLine();
@@ -188,7 +178,6 @@ namespace WinFormsProba {
 			StreamReader fromFile(pathToFile);
 			String^ temp;
 			int iCountOfNodes, iNumOfVar, iNumOfExamples, iNumOfOutcomes;
-			//String^ nameOfNode = "Node" + iNumOfNode;
 
 			while (fromFile.Peek() >= 0){
 				temp = fromFile.ReadLine();
@@ -226,7 +215,6 @@ namespace WinFormsProba {
 			for (int i = 0; i < nodes->iNumOfVar[0, numOfNode - 1]; i++){				
 				tableOfVariable->Rows[i]->Cells[0]->Value = nodes->sVar[i, numOfNode - 1];
 			}
-				//tableOfVariable->Rows[nodes->iNumOfVar[0, numOfNode - 1]]->Cells[0]->Value = "исходы";
 			//Заполнение массива с примерами. 
 			for (int i = 0; i <= nodes->iNumOfVar[0, numOfNode - 1]; i++){
 				for (int j = 0; j < nodes->iNumOfExamples[0, numOfNode - 1]; j++){
@@ -241,7 +229,6 @@ namespace WinFormsProba {
 			numOfVariable->Text = Convert::ToString(tableOfVariable->ColumnCount - 1);
 			numOfOutcomes->Text = Convert::ToString(tableOfOutcomes->RowCount - 1);
 
-			//tableOfVariable->Rows->Add();
 		}
 
 		Form1(void)
@@ -265,57 +252,7 @@ namespace WinFormsProba {
 		}
 
 	protected: 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	protected: 
-
-
-
-
-
-
-
 	private:
 		/// <summary>
 		/// Требуется переменная конструктора.
@@ -790,18 +727,10 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 				 loadNodeToForm(Convert::ToInt32(numOfNode->Text));
 			 }
 		 }
-private: System::Void tableOfOutcomes_Leave(System::Object^  sender, System::EventArgs^  e) {
-			 // Сохранение автоматически, после потери фокуса.
-			 
-		 }
 private: System::Void initSystem_Click(System::Object^  sender, System::EventArgs^  e) {
 			 //Инициализация массива
-			 /*if (INIT > 0){
-	 			nodes->saveToFile(Convert::ToInt32(countOfNode->Text), arrayForInit[0], arrayForInit[1], arrayForInit[2], "~temp.dcl");
-			 } */
 			 initTheNode(0);
 			 //Заполнение узлов
-			 //for (int k = 0; k < Convert::ToInt32(countOfNode->Text) - 1; k++)
 			 for (int i = 0; i < Convert::ToInt32(numOfVar->Text); i++){				
 				 nodes->sVar[i, Convert::ToInt32(numOfNode->Text) - 1] = tableOfVariable->Rows[i]->Cells[0]->Value->ToString();
 			 }
@@ -816,7 +745,6 @@ private: System::Void initSystem_Click(System::Object^  sender, System::EventArg
 				 nodes->sOutcomes[i, Convert::ToInt32(numOfNode->Text) - 1] = tableOfOutcomes->Rows[i]->Cells[0]->Value->ToString();
 			 }
 			 //Заполнение исходов в нижней строке примеров
-			// for (int i = 0; i < )
 			 nodes->saveToFile(Convert::ToInt32(countOfNode->Text), arrayForInit[0], arrayForInit[1], arrayForInit[2], "~temp.dcl");
 		 }
 private: System::Void button2_Click_1(System::Object^  sender, System::EventArgs^  e) {
@@ -846,7 +774,6 @@ private: System::Void button1_Click_1(System::Object^  sender, System::EventArgs
 private: System::Void button1_Click_2(System::Object^  sender, System::EventArgs^  e) {
 		 }
 private: System::Void deleteColumn_Click(System::Object^  sender, System::EventArgs^  e) {
-			// tableOfVariable->CurrentCell->ColumnIndex;
 			 tableOfVariable->Columns->RemoveAt(tableOfVariable->CurrentCell->ColumnIndex);
 		 }
 private: System::Void previousNode_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -906,7 +833,6 @@ private: System::Void button4_Click(System::Object^  sender, System::EventArgs^ 
 		 }
 private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
 			//Нормальное функционирование, тренировка
-			//array <int, 1> 
 			nodes->trainingSystem1580();
 			for (int n = 0; n < nodes->iCountOfNodes; n++){
 				for (int i = 0; i < nodes->iNumOfVar[0, n]; i++){
@@ -1004,7 +930,6 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 							tableOfVariable->Rows[i]->Cells[nodes->iNumOfExamples[0, node] + 1]->Value = nodes->iValue[i, node];
 						}
 						tableOfVariable->Rows[nodes->iNumOfVar[0, node]]->Cells[nodes->iNumOfExamples[0, node] + 1]->Value = nodes->correct + 1;
-						//nodes->iNumOfExamples[0, node] = nodes->iNumOfExamples[0, node] + 1;
 					}
 					else{
 						listBox1->Items->Add("Нет");   
@@ -1012,13 +937,11 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 					nodes->correctRulesValue2680(node);
 					nodes->compareTheBestOutComes1270(node);
 				}
-				//if (!nodes->training) break;
 			}
 			//ВОзожмно не надо
 			nodes->saveToFile(Convert::ToInt32(countOfNode->Text), arrayForInit[0], arrayForInit[1], arrayForInit[2], "~temp.dcl");
 			initTheNode(0);
 			//Заполнение узлов
-			//for (int k = 0; k < Convert::ToInt32(countOfNode->Text) - 1; k++)
 			for (int i = 0; i < Convert::ToInt32(numOfVar->Text); i++){				
 				nodes->sVar[i, Convert::ToInt32(numOfNode->Text) - 1] = tableOfVariable->Rows[i]->Cells[0]->Value->ToString();
 			}
@@ -1033,7 +956,6 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 				nodes->sOutcomes[i, Convert::ToInt32(numOfNode->Text) - 1] = tableOfOutcomes->Rows[i]->Cells[0]->Value->ToString();
 			}
 			//Заполнение исходов в нижней строке примеров
-			// for (int i = 0; i < )
 			nodes->saveToFile(Convert::ToInt32(countOfNode->Text), arrayForInit[0], arrayForInit[1], arrayForInit[2], "~temp.dcl");
 		 }
 private: System::Void button4_Click_1(System::Object^  sender, System::EventArgs^  e) {
@@ -1065,29 +987,6 @@ private: System::Void tableOfVariable_CellClick(System::Object^  sender, System:
 private: System::Void tableOfOutcomes_CellClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
 			 //Для удаления строки
 			 deleteRows = 0;
-		 }
-private: System::Void tableOfVariable_Leave(System::Object^  sender, System::EventArgs^  e) {
-			/*for (int i = 0; i < Convert::ToInt32(numOfVar->Text); i++){
-				for (int j = 0; j < Convert::ToInt32(numOfVariable->Text); j++){
-					if (tableOfVariable->Rows[i]->Cells[j + 1]->Value->ToString() == "0" || tableOfVariable->Rows[i]->Cells[j + 1]->Value->ToString() == "1"){
-					}
-					else{
-						MessageBox::Show("Столбцы с примерами должны содержать только значения '0' или '1'", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
-					}
-				}
-			} */
-
-		 }
-private: System::Void tableOfVariable_CellValueChanged(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
-
-		 }
-private: System::Void tableOfVariable_CurrentCellChanged(System::Object^  sender, System::EventArgs^  e) {
-		 }
-private: System::Void tableOfVariable_KeyPress(System::Object^  sender, System::Windows::Forms::KeyPressEventArgs^  e) {
-		 }
-private: System::Void tableOfVariable_CurrentCellDirtyStateChanged(System::Object^  sender, System::EventArgs^  e) {
-	
-
 		 }
 private: System::Void tableOfVariable_CellClick_1(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
 			 //ДЛя удаления строки

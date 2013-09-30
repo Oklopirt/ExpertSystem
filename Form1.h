@@ -24,6 +24,7 @@ namespace WinFormsProba {
 		String^ pathToFile;
 		int answer;
 		bool deleteRows;
+		array<int> ^arrayForInit;
 	private: System::Windows::Forms::MenuStrip^  menuStrip1;
 	private: System::Windows::Forms::ToolStripMenuItem^  toolStripMenuItem1;
 	private: System::Windows::Forms::ToolStripMenuItem^  сохранитьToolStripMenuItem;
@@ -65,10 +66,23 @@ namespace WinFormsProba {
 	private: System::Windows::Forms::DataGridView^  tableOfVariable;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Column1;
 	private: System::Windows::Forms::TabControl^  tabControl1;
+
 	private: System::Windows::Forms::Button^  button1;
 
-			 array<int> ^arrayForInit;
 	public:
+		void manageButtons(bool switc){
+			//Управление кнопками для исключения ошибок
+			if (switc == 1){
+				button1->Enabled = true;
+				button2->Enabled = true;
+				deleteColumn->Enabled = true;
+			}
+			else{
+				button1->Enabled = false;
+				button2->Enabled = false;
+				deleteColumn->Enabled = false;
+			}
+		}
 		void clearWorkPlace(){
 			 tableOfOutcomes->Rows->Clear();
 			 tableOfVariable->Rows->Clear();
@@ -76,7 +90,6 @@ namespace WinFormsProba {
 			 for(int i = countOfDeleteColumns - 1; i != 0; i--){
 				 tableOfVariable->Columns->RemoveAt(i);
 			 }							
-			 //numOfNode->Text = " ";
 			 numOfOutcomes->Text = " ";
 			 numOfVar->Text = " ";
 			 numOfVariable->Text = " ";
@@ -229,6 +242,7 @@ namespace WinFormsProba {
 			numOfVariable->Text = Convert::ToString(tableOfVariable->ColumnCount - 1);
 			numOfOutcomes->Text = Convert::ToString(tableOfOutcomes->RowCount - 1);
 
+			//tableOfVariable->Rows->Add();
 		}
 
 		Form1(void)
@@ -252,7 +266,10 @@ namespace WinFormsProba {
 		}
 
 	protected: 
+
+
 	protected: 
+
 	private:
 		/// <summary>
 		/// Требуется переменная конструктора.
@@ -325,8 +342,8 @@ namespace WinFormsProba {
 			this->toolStripMenuItem1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {this->сохранитьToolStripMenuItem, 
 				this->сохранитьКакToolStripMenuItem, this->загрузитьToolStripMenuItem});
 			this->toolStripMenuItem1->Name = L"toolStripMenuItem1";
-			this->toolStripMenuItem1->Size = System::Drawing::Size(43, 20);
-			this->toolStripMenuItem1->Text = L"Узел";
+			this->toolStripMenuItem1->Size = System::Drawing::Size(45, 20);
+			this->toolStripMenuItem1->Text = L"Файл";
 			this->toolStripMenuItem1->Click += gcnew System::EventHandler(this, &Form1::toolStripMenuItem1_Click);
 			// 
 			// сохранитьToolStripMenuItem
@@ -371,7 +388,7 @@ namespace WinFormsProba {
 			// checkBox1
 			// 
 			this->checkBox1->AutoSize = true;
-			this->checkBox1->Location = System::Drawing::Point(503, 19);
+			this->checkBox1->Location = System::Drawing::Point(17, 71);
 			this->checkBox1->Name = L"checkBox1";
 			this->checkBox1->Size = System::Drawing::Size(174, 17);
 			this->checkBox1->TabIndex = 6;
@@ -381,7 +398,7 @@ namespace WinFormsProba {
 			// 
 			// button4
 			// 
-			this->button4->Location = System::Drawing::Point(89, 346);
+			this->button4->Location = System::Drawing::Point(89, 335);
 			this->button4->Name = L"button4";
 			this->button4->Size = System::Drawing::Size(116, 23);
 			this->button4->TabIndex = 4;
@@ -392,14 +409,14 @@ namespace WinFormsProba {
 			// listBox1
 			// 
 			this->listBox1->FormattingEnabled = true;
-			this->listBox1->Location = System::Drawing::Point(6, 6);
+			this->listBox1->Location = System::Drawing::Point(224, 16);
 			this->listBox1->Name = L"listBox1";
-			this->listBox1->Size = System::Drawing::Size(274, 329);
+			this->listBox1->Size = System::Drawing::Size(432, 342);
 			this->listBox1->TabIndex = 1;
 			// 
 			// button3
 			// 
-			this->button3->Location = System::Drawing::Point(295, 6);
+			this->button3->Location = System::Drawing::Point(17, 16);
 			this->button3->Name = L"button3";
 			this->button3->Size = System::Drawing::Size(188, 40);
 			this->button3->TabIndex = 0;
@@ -626,6 +643,7 @@ namespace WinFormsProba {
 			this->tableOfOutcomes->Size = System::Drawing::Size(215, 174);
 			this->tableOfOutcomes->TabIndex = 1;
 			this->tableOfOutcomes->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Form1::tableOfOutcomes_CellClick);
+			this->tableOfOutcomes->Enter += gcnew System::EventHandler(this, &Form1::tableOfOutcomes_Enter);
 			this->tableOfOutcomes->Leave += gcnew System::EventHandler(this, &Form1::tableOfOutcomes_Leave);
 			// 
 			// Column2
@@ -649,6 +667,7 @@ namespace WinFormsProba {
 			this->tableOfVariable->CurrentCellChanged += gcnew System::EventHandler(this, &Form1::tableOfVariable_CurrentCellChanged);
 			this->tableOfVariable->CurrentCellDirtyStateChanged += gcnew System::EventHandler(this, &Form1::tableOfVariable_CurrentCellDirtyStateChanged);
 			this->tableOfVariable->DefaultValuesNeeded += gcnew System::Windows::Forms::DataGridViewRowEventHandler(this, &Form1::tableOfVariable_DefaultValuesNeeded);
+			this->tableOfVariable->Enter += gcnew System::EventHandler(this, &Form1::tableOfVariable_Enter);
 			this->tableOfVariable->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &Form1::tableOfVariable_KeyPress);
 			this->tableOfVariable->Leave += gcnew System::EventHandler(this, &Form1::tableOfVariable_Leave);
 			// 
@@ -675,10 +694,12 @@ namespace WinFormsProba {
 			this->ClientSize = System::Drawing::Size(690, 430);
 			this->Controls->Add(this->tabControl1);
 			this->Controls->Add(this->menuStrip1);
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
 			this->MainMenuStrip = this->menuStrip1;
 			this->MaximizeBox = false;
 			this->Name = L"Form1";
-			this->Text = L" ";
+			this->Text = L" Expert";
+			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &Form1::Form1_FormClosing);
 			this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
@@ -695,12 +716,17 @@ namespace WinFormsProba {
 		}
 #pragma endregion
 	private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e) {
+				 //Действия при первом открытии формы
 				 INIT = 0;
 				 arrayForInit = gcnew array<int>(3);
 				 arrayForInit[0] = 0;
 				 arrayForInit[1] = 0;
 				 arrayForInit[2] = 0;
 				 answer = 3;
+				 tableOfVariable->CurrentCell = tableOfVariable->Rows[0]->Cells[0];
+	 			 tableOfVariable->Rows->Add(1);
+				 newNode->Enabled = false;
+				 сохранитьToolStripMenuItem->Enabled = false;
 			 }
 	private: System::Void button1_Enter(System::Object^  sender, System::EventArgs^  e) {
 			 }
@@ -727,25 +753,123 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 				 loadNodeToForm(Convert::ToInt32(numOfNode->Text));
 			 }
 		 }
+private: System::Void tableOfOutcomes_Leave(System::Object^  sender, System::EventArgs^  e) {
+			 //manageButtons(0);
+			 
+		 }
 private: System::Void initSystem_Click(System::Object^  sender, System::EventArgs^  e) {
-			 //Инициализация массива
-			 initTheNode(0);
-			 //Заполнение узлов
-			 for (int i = 0; i < Convert::ToInt32(numOfVar->Text); i++){				
-				 nodes->sVar[i, Convert::ToInt32(numOfNode->Text) - 1] = tableOfVariable->Rows[i]->Cells[0]->Value->ToString();
+			 //Полная проверка введенных данных в новый узел перед инициализацией 
+
+			 bool breakPoint = 0;
+			 //Проверка на пустые ячейки tableOfOutcomes
+			 for(int i = 0; i < tableOfOutcomes->RowCount - 1; i++){
+				if (tableOfOutcomes->Rows[i]->Cells[0]->Value == nullptr){
+					tableOfOutcomes->CurrentCell = tableOfOutcomes->Rows[i]->Cells[0];
+					MessageBox::Show("Таблицы не должны содержать пустые значения!");
+					breakPoint = 1;
+				}
+				if (breakPoint)
+					break;
 			 }
-			 //Заполнение массива с примерами. 
-			 for (int i = 0; i <= Convert::ToInt32(numOfVar->Text); i++){
-				 for (int j = 0; j < Convert::ToInt32(numOfVariable->Text); j++){
-					 nodes->bExamples[i, j, Convert::ToInt32(numOfNode->Text) - 1] = Convert::ToInt32(tableOfVariable->Rows[i]->Cells[j + 1]->Value->ToString());
+			 //Проверка на пустые ячейки tableOfVariable
+			 if(!breakPoint){
+				 for (int i = 0; i < tableOfVariable->RowCount - 2; i++){
+					 for (int j = 0; j < tableOfVariable->ColumnCount; j++){
+						 if (tableOfVariable->Rows[i]->Cells[j]->Value == nullptr){
+							tableOfVariable->CurrentCell = tableOfVariable->Rows[i]->Cells[j];
+							MessageBox::Show("Таблицы не должны содержать пустые значения!");
+							breakPoint = 1;
+						 }
+						 if (breakPoint)
+							break;
+					 }
+					 if (breakPoint)
+						 break;
 				 }
 			 }
-			 //Заполнение возможных исходов
-			 for (int i = 0; i < Convert::ToInt32(numOfOutcomes->Text); i++){				
-				 nodes->sOutcomes[i, Convert::ToInt32(numOfNode->Text) - 1] = tableOfOutcomes->Rows[i]->Cells[0]->Value->ToString();
+			 if (!breakPoint){
+				 int i = tableOfVariable->RowCount - 2;
+				 for (int j = 1; j < tableOfVariable->ColumnCount; j++){
+					if (tableOfVariable->Rows[i]->Cells[j]->Value == nullptr){
+							tableOfVariable->CurrentCell = tableOfVariable->Rows[i]->Cells[j];
+							MessageBox::Show("Таблицы не должны содержать пустые значения!");
+							breakPoint = 1;
+					}
+					if (breakPoint)
+						break;
+				 }
 			 }
-			 //Заполнение исходов в нижней строке примеров
-			 nodes->saveToFile(Convert::ToInt32(countOfNode->Text), arrayForInit[0], arrayForInit[1], arrayForInit[2], "~temp.dcl");
+
+			 //Проверка примеров на  "0" "1"
+			 if(!breakPoint){
+				 for (int i = 0; i < tableOfVariable->RowCount - 2; i++){
+					 for (int j = 1; j < tableOfVariable->ColumnCount; j++){
+						 if (tableOfVariable->Rows[i]->Cells[j]->Value->ToString() != "0" &&
+							 tableOfVariable->Rows[i]->Cells[j]->Value->ToString() != "1"){
+
+							 tableOfVariable->CurrentCell = tableOfVariable->Rows[i]->Cells[j];
+							 MessageBox::Show("Здесь может быть только 0 или 1!");
+							 breakPoint = 1;
+							 break;
+						 } 
+						 if (breakPoint)
+							 break;
+					 }
+					 if (breakPoint)
+						 break;
+				 }
+			 }
+			 //Проверка строки с исходами на числа
+			 if (!breakPoint){
+				 int n;
+				 int i = tableOfVariable->RowCount - 2;
+				 for (int j = 1; j < tableOfVariable->ColumnCount; j++){
+					if (!int::TryParse(tableOfVariable->Rows[i]->Cells[j]->Value->ToString(), n)){
+						tableOfVariable->CurrentCell = tableOfVariable->Rows[i]->Cells[j];
+						MessageBox::Show("Строка с исходами должна содержать только числа");
+						breakPoint = 1;
+						break;
+					}
+					if (breakPoint)
+						break;
+				 }
+			 }
+			 if (!breakPoint){
+				 int i = tableOfVariable->RowCount - 2;
+				 for (int j = 1; j < tableOfVariable->ColumnCount; j++){
+					 if (Convert::ToInt32(tableOfVariable->Rows[i]->Cells[j]->Value->ToString()) > tableOfOutcomes->RowCount || 
+						 Convert::ToInt32(tableOfVariable->Rows[i]->Cells[j]->Value->ToString()) < 1){
+
+						tableOfVariable->CurrentCell = tableOfVariable->Rows[i]->Cells[j];
+						MessageBox::Show("Номер должен соответствовать строке в таблице с исходами");
+						breakPoint = 1;
+						break;
+					}
+					if (breakPoint)
+						break;
+				 }
+			 }
+			 if (!breakPoint){
+				initTheNode(0);
+				//Заполнение переменных
+				for (int i = 0; i < Convert::ToInt32(numOfVar->Text); i++){				
+					nodes->sVar[i, Convert::ToInt32(numOfNode->Text) - 1] = tableOfVariable->Rows[i]->Cells[0]->Value->ToString();
+				}
+				//Заполнение массива с примерами. 
+				for (int i = 0; i <= Convert::ToInt32(numOfVar->Text); i++){
+					for (int j = 0; j < Convert::ToInt32(numOfVariable->Text); j++){
+						nodes->bExamples[i, j, Convert::ToInt32(numOfNode->Text) - 1] = Convert::ToInt32(tableOfVariable->Rows[i]->Cells[j + 1]->Value->ToString());
+					}
+				}
+				//Заполнение возможных исходов
+				for (int i = 0; i < Convert::ToInt32(numOfOutcomes->Text); i++){				
+					nodes->sOutcomes[i, Convert::ToInt32(numOfNode->Text) - 1] = tableOfOutcomes->Rows[i]->Cells[0]->Value->ToString();
+				}
+				//Заполнение исходов в нижней строке примеров
+				nodes->saveToFile(Convert::ToInt32(countOfNode->Text), arrayForInit[0], arrayForInit[1], arrayForInit[2], "~temp.dcl");
+
+				 newNode->Enabled = true;
+			 }
 		 }
 private: System::Void button2_Click_1(System::Object^  sender, System::EventArgs^  e) {
 			 //добавление нового столбца
@@ -755,7 +879,7 @@ private: System::Void button2_Click_1(System::Object^  sender, System::EventArgs
 			 tableOfVariable->Columns->Add(columnName, columnText);
 			 tableOfVariable->Columns[i]->Width = 25;
 			 for (int j = 0; j < tableOfVariable->Rows->Count - 1; j++){
-				 tableOfVariable->Rows[j]->Cells[i]->Value = 0;
+				 tableOfVariable->Rows[j]->Cells[i]->Value = "0";
 			 }
 		 }
 private: System::Void tableOfVariable_DefaultValuesNeeded(System::Object^  sender, System::Windows::Forms::DataGridViewRowEventArgs^  e) {
@@ -768,13 +892,15 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 			 countOfNode->Text = Convert::ToString(Convert::ToInt32(countOfNode->Text) + 1);
 			 numOfNode->Text = Convert::ToString(Convert::ToInt32(countOfNode->Text));
 			 INIT = 3;
+			 newNode->Enabled = false;
 		 }
 private: System::Void button1_Click_1(System::Object^  sender, System::EventArgs^  e) {
 		 }
 private: System::Void button1_Click_2(System::Object^  sender, System::EventArgs^  e) {
 		 }
 private: System::Void deleteColumn_Click(System::Object^  sender, System::EventArgs^  e) {
-			 tableOfVariable->Columns->RemoveAt(tableOfVariable->CurrentCell->ColumnIndex);
+			 if (tableOfVariable->RowCount > 1 && tableOfVariable->ColumnCount > 1 && tableOfVariable->CurrentCell->ColumnIndex != 0)
+				tableOfVariable->Columns->RemoveAt(tableOfVariable->CurrentCell->ColumnIndex);
 		 }
 private: System::Void previousNode_Click(System::Object^  sender, System::EventArgs^  e) {
 			 int i = Convert::ToInt32(numOfNode->Text) - 1;
@@ -810,6 +936,8 @@ private: System::Void загрузитьToolStripMenuItem_Click(System::Object^ 
 				loadNodeToForm(Convert::ToInt32(numOfNode->Text));
 				nodes->saveToFile(Convert::ToInt32(countOfNode->Text), arrayForInit[0], arrayForInit[1], arrayForInit[2], "~temp.dcl");
 			}
+			newNode->Enabled = true;
+			сохранитьToolStripMenuItem->Enabled = true;
 		 }
 private: System::Void сохранитьКакToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			  SaveFileDialog^ saveFileDialog1 = gcnew SaveFileDialog;
@@ -820,16 +948,10 @@ private: System::Void сохранитьКакToolStripMenuItem_Click(System::Ob
 				  pathToFile = saveFileDialog1->FileName;
 				  nodes->saveToFile(Convert::ToInt32(countOfNode->Text), arrayForInit[0], arrayForInit[1], arrayForInit[2], pathToFile);
 			  }
+			  сохранитьToolStripMenuItem->Enabled = true;
 		 }
 private: System::Void сохранитьToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			  nodes->saveToFile(Convert::ToInt32(countOfNode->Text), arrayForInit[0], arrayForInit[1], arrayForInit[2], pathToFile);
-		 }
-private: System::Void button1_Click_3(System::Object^  sender, System::EventArgs^  e) {
-			 MessageBoxButtons::YesNo;
-			 MessageBox::Show("sdfsdfsdfs");
-		 }
-private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
-			 answer = 1;
 		 }
 private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
 			//Нормальное функционирование, тренировка
@@ -843,10 +965,8 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 				for (int j = 0; j < nodes->iNumOfOutcomes[0, n]; j++){
 					nodes->bOutflag[j, n] = 1;
 				}
-				
-
 			}
-			//Основной цикл
+			//Основной цикл, где реализованно вычисление вероятного исхода по Байесу
 			for (int node = 0; node < nodes->iCountOfNodes; node++){
 				nodes->var = nodes->iNumOfVar[0, node];
 				nodes->outcomes = nodes->iNumOfOutcomes[0, node];
@@ -864,7 +984,7 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 
 					//2560
 					listBox1->Items->Add("Переменная '" + nodes->sVar[nodes->bestvar, node] + "' есть?");
-					if (MessageBox::Show("Переменная '" + nodes->sVar[nodes->bestvar, node] + "' есть?", "  ",
+					if (MessageBox::Show("Переменная '" + nodes->sVar[nodes->bestvar, node] + "' есть?", "Обработка узла " + (node + 1),
 						MessageBoxButtons::YesNo) == System::Windows::Forms::DialogResult::Yes){
 						listBox1->Items->Add("Да");
 						nodes->iValue[nodes->bestvar, node] = 1;
@@ -880,13 +1000,13 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 				}while (nodes->bestposs != nodes->best);
 				if (!nodes->training){
 					listBox1->Items->Add("В качестве возможного исхода предлагается - " + nodes->sOutcomes[nodes->best, node]);
-					MessageBox::Show("В качестве возможного исхода предлагается - " + nodes->sOutcomes[nodes->best, node] + " ");
+					MessageBox::Show("В качестве возможного исхода предлагается - " + nodes->sOutcomes[nodes->best, node] + " ", "Исход после узла №" + (node + 1));
 					nodes->correct = nodes->best;
 					nodes->compareTheBestOutComes1270(node);
 				}
 				else{
 					listBox1->Items->Add("Возможный результат - " + nodes->sOutcomes[nodes->best, node]);
-					if (MessageBox::Show("Возможный результат - " + nodes->sOutcomes[nodes->best, node] + " ", "  ",
+					if (MessageBox::Show("Возможный результат - " + nodes->sOutcomes[nodes->best, node] + " ", "Тренировочный режим. Узел №" + (node + 1),
 						MessageBoxButtons::YesNo) == System::Windows::Forms::DialogResult::Yes){
 
 						listBox1->Items->Add("Да");
@@ -896,7 +1016,7 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 						//2610
 						for (int i = 0; i < nodes->iNumOfOutcomes[0, node]; i++){
 						listBox1->Items->Add("Допустимый исход - " + nodes->sOutcomes[i, node]);
-							if (MessageBox::Show("Допустимый исход - " + nodes->sOutcomes[i, node] + " ", "  ",
+							if (MessageBox::Show("Допустимый исход - " + nodes->sOutcomes[i, node] + " ", "Тренировочный режим. Узел №" + (node + 1),
 								MessageBoxButtons::YesNo) == System::Windows::Forms::DialogResult::Yes){
 								nodes->correct = i;
 								listBox1->Items->Add("Да");
@@ -923,7 +1043,7 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 						tableOfVariable->Columns->Add(columnName, columnText);
 						tableOfVariable->Columns[i]->Width = 25;
 						for (int j = 0; j < tableOfVariable->Rows->Count - 1; j++){
-							tableOfVariable->Rows[j]->Cells[i]->Value = 0;
+							tableOfVariable->Rows[j]->Cells[i]->Value = "0";
 						}
 						
 						for (int i = 0; i < nodes->iNumOfVar[0, node]; i++){
@@ -937,6 +1057,7 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 					nodes->correctRulesValue2680(node);
 					nodes->compareTheBestOutComes1270(node);
 				}
+				//if (!nodes->training) break;
 			}
 			//ВОзожмно не надо
 			nodes->saveToFile(Convert::ToInt32(countOfNode->Text), arrayForInit[0], arrayForInit[1], arrayForInit[2], "~temp.dcl");
@@ -975,11 +1096,13 @@ private: System::Void checkBox1_CheckedChanged(System::Object^  sender, System::
 			 }
 		 }
 private: System::Void button1_Click_4(System::Object^  sender, System::EventArgs^  e) {
-			 if (deleteRows == 1){
-				tableOfVariable->Rows->RemoveAt(tableOfVariable->CurrentCell->RowIndex);
-			 }
-			 if (deleteRows == 0){
-				tableOfOutcomes->Rows->RemoveAt(tableOfOutcomes->CurrentCell->RowIndex);
+			 if (tableOfVariable->RowCount > 1){//Должна оставаться минимум одна строка
+				 if (deleteRows == 1){
+					tableOfVariable->Rows->RemoveAt(tableOfVariable->CurrentCell->RowIndex);
+				 }
+				 if (deleteRows == 0){
+					tableOfOutcomes->Rows->RemoveAt(tableOfOutcomes->CurrentCell->RowIndex);
+				 }
 			 }
 		 }
 private: System::Void tableOfVariable_CellClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
@@ -988,10 +1111,17 @@ private: System::Void tableOfOutcomes_CellClick(System::Object^  sender, System:
 			 //Для удаления строки
 			 deleteRows = 0;
 		 }
+private: System::Void tableOfVariable_Leave(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void tableOfVariable_CellValueChanged(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
+		 }
 private: System::Void tableOfVariable_CellClick_1(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
-			 //ДЛя удаления строки
+			 //Для удаления строки
 			 deleteRows = 1;
+		 }
+private: System::Void Form1_FormClosing(System::Object^  sender, System::Windows::Forms::FormClosingEventArgs^  e) {
+			 System::IO::File::Delete("~temp.dcl");
 		 }
 };
 }
-				
+					

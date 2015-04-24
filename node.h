@@ -1,4 +1,4 @@
-#pragma onceuponatime
+#pragma once
 using namespace System;
 
 ref class node
